@@ -1,5 +1,5 @@
-class Sunscreen extends SkincareProduct {
+public class Sunscreen extends SkincareProduct {
     public Sunscreen(String name) {
-        super(name);
+        super(name, "Sunscreen");
     }
 }

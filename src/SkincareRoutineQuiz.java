@@ -5,6 +5,7 @@
 // ***********************************************************************************************
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class SkincareRoutineQuiz {
@@ -17,40 +18,46 @@ public class SkincareRoutineQuiz {
         System.out.println("Answer the following questions to get your personalized skincare routine.");
         System.out.println();
 
-        // Example array to be sorted using merge sort
-        /*
-        - quiz start
+        ArrayList<SkincareProduct> skincareProducts = new ArrayList<>();
 
-        - scale of 1 - 10 on skin concerns
-        - scale dependent on ratings of importantance
-        - Questions:
-        - what is your skin type?
-        - what concerns do you have for your skin
-          - on a scale of 1 - 10 how bad is your acne
-          - on a scale of 1 - 10 how bad is your hyperpigmentation
-          - on a scale of 1 - 10 how severe is your redness
-          - on a scale of 1 - 10 how severe is your wrinkles and fine lines
-          - Based on your results, we will prioritize "x" as your concern, here are some recommendations
-        -......
-
-        -sort depending on ratings
-        -suggest products depending on most important concerns
-
-         */
-
-        //ArrayList<ArrayList<Integer>> twoDArrayList = new ArrayList<>();
-
-        Scanner scanner1 = new Scanner(System.in);
-        ArrayList[][] prefrences = new ArrayList[2][4];
-
-        System.out.println("Welcome heres some questions");
-        System.out.println("whats ur skin type? A, b, c, d");
+        //Cleansers
+        skincareProducts.add(new SkincareProduct("First Aid Beauty: Pure Skin Face Cleanser", "Cleanser"));
+        skincareProducts.add(new SkincareProduct("innisfree: Green Tea Hyaluronic Acid Face Cleanser", "Cleanser"));
+        skincareProducts.add(new SkincareProduct("Beauty of Joseon: Ginseng Cleansing Oil", "Cleanser"));
+        skincareProducts.add(new SkincareProduct("COSRX: Low pH Good Morning Gel Cleanser", "Cleanser"));
+        skincareProducts.add(new SkincareProduct("The INKEY List: Oat Makeup Removing Cleansing Balm", "Cleanser"));
 
 
-        System.out.println("whats ur hair type? A, b, c, d");
+        //Essence/Toners
+        skincareProducts.add(new SkincareProduct("COSRX: Advanced Snail 96 Mucin Power Essence", "Essense/Toners"));
+        skincareProducts.add(new SkincareProduct("COSRX: Full Fit Propolis Synergy Toner", "Essense/Toners"));
+        skincareProducts.add(new SkincareProduct("Haruharu Wonder: Black Rice Hyaluronic Toner", "Essense/Toners"));
+        skincareProducts.add(new SkincareProduct("Beauty of Joseon: Ginseng Essence Water", "Essense/Toners"));
 
 
-        System.out.println("whats ur face type? A, b, c, d");
+        //Serums
+        skincareProducts.add(new SkincareProduct("COSRX: Full Fit Propolis Light Ampoule", "Serum"));
+        skincareProducts.add(new SkincareProduct("Beauty of Joseon: Glow Serum : Propolis + Niacinamide", "Serum"));
+        skincareProducts.add(new SkincareProduct("Beauty of Joseon: Calming serum : Green tea + Panthenol", "Serum"));
+        skincareProducts.add(new SkincareProduct("Beauty of Joseon: Glow Deep Serum : Rice + Alpha Arbutin", "Serum"));
+        skincareProducts.add(new SkincareProduct("Beauty of Joseon: Revive Serum : Ginseng + Snail Mucin", "Serum"));
+
+
+        //Moisturizer
+        skincareProducts.add(new SkincareProduct("innisfree: Dewy Glow Moisturizer with Cherry Blossom & Niacinamide", "Moisturizer"));
+        skincareProducts.add(new SkincareProduct("COSRX: Advanced Snail 92 All In One Cream", "Moisturizer"));
+        skincareProducts.add(new SkincareProduct("COSRX: Full Fit Propolis Light Cream with Honey & Royal Jelly Extract", "Moisturizer"));
+        skincareProducts.add(new SkincareProduct("COSRX: Hydrium Green Tea Aqua Soothing Gel Cream", "Moisturizer"));
+        skincareProducts.add(new SkincareProduct("ETUDE: SoonJung 2x Barrier Intensive Cream", "Moisturizer"));
+
+
+        //Sunscreen
+        skincareProducts.add(new SkincareProduct("Beauty of Joseon Relief Sun: Rice + Probiotics", "Sunscreen"));
+        skincareProducts.add(new SkincareProduct("innisfree: Daily UV Defense Invisible Broad Spectrum SPF 36 Sunscreen", "Sunscreen"));
+        skincareProducts.add(new SkincareProduct("TOCOBO: Bio Watery Sun Cream SPF50+ PA++++", "Sunscreen"));
+        skincareProducts.add(new SkincareProduct("Beauty of Joseon: Relief Sun:Matte Sun Stick : Mugwort + Camelia (SPF50+ PA++++)", "Sunscreen"));
+
+        skincareProducts.sort(Comparator.comparing(SkincareProduct::getCategory));
 
         int score = 0;
 
@@ -74,6 +81,8 @@ public class SkincareRoutineQuiz {
             System.out.println("Invalid input. Please enter a valid option.");
         }
 
+        System.out.println();
+
         System.out.println("Question 2: What are your main skincare concerns?");
         System.out.println("a) Acne");
         System.out.println("b) Hyperpigmentation");
@@ -83,37 +92,23 @@ public class SkincareRoutineQuiz {
         System.out.print("Your answer: ");
         char answer2 = Character.toLowerCase(scanner.next().charAt(0));
 
-        if (answer2 == 'a') {
-            score += 2;
-        } else if (answer2 == 'b') {
-            score += 3;
-        } else if (answer2 == 'c') {
-            score += 2;
-        } else if (answer2 == 'd') {
-            score += 3;
-        } else if (answer2 == 'e') {
-            score += 0;
-        } else {
-            System.out.println("Invalid input. Please enter a valid option.");
-        }
-
-        // Add more questions and scoring logic for other questions
 
         System.out.println();
 
         // Based on the user's total score, provide skincare routine recommendations
-        if (score >= 8) {
-            System.out.println("Your personalized skincare routine for dry skin with concerns is...");
-        } else if (score >= 6) {
+        if (score == 2) {
+            System.out.println("Your personalized skincare routine for dry skin with concerns is ");
+        } else if (score == 3) {
             System.out.println("Your personalized skincare routine for combination skin with concerns is...");
-        } else if (score >= 4) {
+        } else if (score == 4) {
             System.out.println("Your personalized skincare routine for normal skin with concerns is...");
-        } else {
+        } else if (score == 1){
             System.out.println("Your personalized skincare routine for oily skin with concerns is...");
+        } else {
+            System.out.println("Invalid input. Please enter a valid option.");
         }
 
         scanner.close();
-
 
 
     }

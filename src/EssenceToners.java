@@ -1,5 +1,5 @@
 public class EssenceToners extends SkincareProduct{
     public EssenceToners(String name) {
-        super(name);
+        super(name, "Essense/Toners");
     }
 }

@@ -52,7 +52,7 @@ public class SkincareRoutineQuiz {
 
 
         //Sunscreen
-        skincareProducts.add(new SkincareProduct("Beauty of Joseon Relief Sun: Rice + Probiotics", "Sunscreen"));
+        skincareProducts.add(new SkincareProduct("Beauty of Joseon: Relief Sun: Rice + Probiotics", "Sunscreen"));
         skincareProducts.add(new SkincareProduct("innisfree: Daily UV Defense Invisible Broad Spectrum SPF 36 Sunscreen", "Sunscreen"));
         skincareProducts.add(new SkincareProduct("TOCOBO: Bio Watery Sun Cream SPF50+ PA++++", "Sunscreen"));
         skincareProducts.add(new SkincareProduct("Beauty of Joseon: Relief Sun:Matte Sun Stick : Mugwort + Camelia (SPF50+ PA++++)", "Sunscreen"));
@@ -97,15 +97,59 @@ public class SkincareRoutineQuiz {
 
         // Based on the user's total score, provide skincare routine recommendations
         if (score == 2) {
-            System.out.println("Your personalized skincare routine for dry skin with concerns is ");
+            System.out.println("Your personalized skincare routine for dry skin with concerns is: \n");
         } else if (score == 3) {
-            System.out.println("Your personalized skincare routine for combination skin with concerns is...");
+            System.out.println("Your personalized skincare routine for combination skin with concerns is: \n");
         } else if (score == 4) {
-            System.out.println("Your personalized skincare routine for normal skin with concerns is...");
+            System.out.println("Your personalized skincare routine for normal skin with concerns is: \n");
         } else if (score == 1){
-            System.out.println("Your personalized skincare routine for oily skin with concerns is...");
+            System.out.println("Your personalized skincare routine for oily skin with concerns is: \n");
         } else {
             System.out.println("Invalid input. Please enter a valid option.");
+        }
+
+
+        //Cleanser recommendations
+        for (SkincareProduct product : skincareProducts) {
+            if (product.getCategory().equals("Cleanser")) {
+                System.out.println(product.getName());
+            }
+        }
+
+        System.out.println();
+
+        //Essence/Toner recommendations
+        for (SkincareProduct product : skincareProducts) {
+            if (product.getCategory().equals("Essence/Toner")) {
+                System.out.println(product.getName());
+            }
+        }
+
+        System.out.println();
+
+        //Serum recommendations
+        for (SkincareProduct product : skincareProducts) {
+            if (product.getCategory().equals("Serum")) {
+                System.out.println(product.getName());
+            }
+        }
+
+        System.out.println();
+
+        //Moisturizer recommendations
+        for (SkincareProduct product : skincareProducts) {
+            if (product.getCategory().equals("Moisturizer")) {
+                System.out.println(product.getName());
+            }
+        }
+
+        System.out.println();
+
+        //Sunscreen recommendations
+        for (SkincareProduct product : skincareProducts) {
+            if (product.getCategory().equals("Sunscreen")) {
+                System.out.println(product.getName());
+            }
         }
 
         scanner.close();

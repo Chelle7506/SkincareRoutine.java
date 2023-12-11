@@ -14,4 +14,9 @@ public class SkincareProduct {
     public String getCategory() {
         return category;
     }
+
+    @Override
+    public String toString() {
+        return name + " (" + category + ")";
+    }
 }

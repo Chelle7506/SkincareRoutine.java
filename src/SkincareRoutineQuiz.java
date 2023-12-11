@@ -4,14 +4,14 @@
 // Description:  The code will ask the user questions to create a personalized skincare routine
 // ***********************************************************************************************
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SkincareRoutineQuiz {
 
     public static void main(String[] args) {
-        SkincareRoutineQuiz quiz = new SkincareRoutineQuiz();
+        SkincareRoutineQuiz program = new SkincareRoutineQuiz();
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Skincare Routine Quiz");
@@ -59,9 +59,41 @@ public class SkincareRoutineQuiz {
 
         skincareProducts.sort(Comparator.comparing(SkincareProduct::getCategory));
 
+        SkincareHashTable skincareHashTable = new SkincareHashTable();
+
+        // Adding skincare products to the hash table
+        skincareHashTable.put("Cleanser", new SkincareProduct("First Aid Beauty: Pure Skin Face Cleanser", "Cleanser"));
+        skincareHashTable.put("Essence", new SkincareProduct("COSRX: Advanced Snail 96 Mucin Power Essence", "Essence/Toner"));
+        skincareHashTable.put("Serum", new SkincareProduct("COSRX: Full Fit Propolis Light Ampoule", "Serum"));
+
+        int numThreads = 3; // Number of threads to create
+        int productsPerThread = skincareProducts.size() / numThreads;
+
+        ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
+
+        // Create and start threads for processing skincare products
+        for (int i = 0; i < numThreads; i++) {
+            int startIndex = i * productsPerThread;
+            int endIndex = (i == numThreads - 1) ? skincareProducts.size() - 1 : startIndex + productsPerThread - 1;
+
+            SkincareThread thread = new SkincareThread(skincareProducts, startIndex, endIndex);
+            executorService.submit(thread);
+        }
+
+        // Shutdown the ExecutorService to stop accepting new tasks
+        executorService.shutdown();
+
+        // Wait for all submitted tasks to complete or timeout after a certain period
+        try {
+            executorService.awaitTermination(10, java.util.concurrent.TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         int score = 0;
 
-        System.out.println("Question 1: What is your skin type?");
+
+        System.out.println("\nQuestion 1: What is your skin type?");
         System.out.println("a) Oily");
         System.out.println("b) Dry");
         System.out.println("c) Combination");
@@ -152,8 +184,84 @@ public class SkincareRoutineQuiz {
             }
         }
 
+
+        // Retrieving a skincare product from the hash table
+        SkincareProduct foundProduct = skincareHashTable.get("Essence");
+        if (foundProduct != null) {
+            System.out.println("Product found: " + foundProduct);
+        } else {
+            System.out.println("Product not found.");
+        }
+
+
+
         scanner.close();
 
+        System.out.println("\nThank you for taking the time to do this short little skincare routine quiz! \n" +
+                "Many of the results may look similar as the product can be used for mulitple skin \n" +
+                "types and overall depends on the person!\n");
+
+        ArrayList<String> skincareCategories = new ArrayList<>();
+        skincareCategories.add("Sunscreen");
+        skincareCategories.add("Serum");
+        skincareCategories.add("Cleanser");
+        skincareCategories.add("Moisturizer");
+        skincareCategories.add("Essence/Toner");
+
+        System.out.println("\nOriginal Categories: " + skincareCategories);
+
+        mergeSort(skincareCategories, 0, skincareCategories.size() - 1);
+
+        System.out.println("Sorted Categories: " + skincareCategories);
+
+        // Create a queue and enqueue sorted categories
+        Queue<String> sortedCategoriesQueue = new LinkedList<>(skincareCategories);
+        System.out.println("Categories in Queue: " + sortedCategoriesQueue);
+
+        // Dequeue and print each category
+        System.out.println();
+        System.out.println("Dequeued Categories:");
+        while (!sortedCategoriesQueue.isEmpty()) {
+            System.out.println(sortedCategoriesQueue.poll());
+        }
+    }
+
+
+    private static void mergeSort(ArrayList<String> categories, int left, int right) {
+        if (left < right) {
+            int mid = left + (right - left) / 2;
+
+            mergeSort(categories, left, mid);
+            mergeSort(categories, mid + 1, right);
+
+            merge(categories, left, mid, right);
+        }
+    }
+
+    private static void merge(ArrayList<String> categories, int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
+        ArrayList<String> leftList = new ArrayList<>(categories.subList(left, mid + 1));
+        ArrayList<String> rightList = new ArrayList<>(categories.subList(mid + 1, right + 1));
+
+        int i = 0, j = 0, k = left;
+
+        while (i < n1 && j < n2) {
+            if (leftList.get(i).compareTo(rightList.get(j)) <= 0) {
+                categories.set(k++, leftList.get(i++));
+            } else {
+                categories.set(k++, rightList.get(j++));
+            }
+        }
+
+        while (i < n1) {
+            categories.set(k++, leftList.get(i++));
+        }
+
+        while (j < n2) {
+            categories.set(k++, rightList.get(j++));
+        }
 
     }
 }

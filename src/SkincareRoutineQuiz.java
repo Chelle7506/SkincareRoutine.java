@@ -17,6 +17,19 @@ public class SkincareRoutineQuiz {
         System.out.println("Skincare Routine Quiz");
         System.out.println("Answer the following questions to get your personalized skincare routine.");
         System.out.println();
+        System.out.println("Description: Among the many products that will be suggested, it's good to be aware of what can be used\n" +
+                "together and what cannot. Be sure to avoid using actives together as it can irritate and potentially damage the skin\n" +
+                "barrier if not use properly. Actives to NEVER mix: vitamin C, Alpha Hydroxy Acids (AHA), Beta Hydroxy Acids(BHA),\n" +
+                "retinol, retinoids, glycolic acid. Many of the recommended can be used together, but please do research before doing so\n" +
+                "Remember to start simple and focus on what the main problem in order to tackle\n" +
+                "it over time to be successful in your skincare journey!\n" +
+                "\nSteps to Skincare Routine:\n" +
+                "1. Cleanser\n" +
+                "2. Essence/Toners (not mandatory)\n" +
+                "3. Serums\n" +
+                "4. Moisturizer\n" +
+                "5. Sunscreen (Only During the Day!)");
+
 
         ArrayList<SkincareProduct> skincareProducts = new ArrayList<>();
 
@@ -66,29 +79,7 @@ public class SkincareRoutineQuiz {
         skincareHashTable.put("Essence", new SkincareProduct("COSRX: Advanced Snail 96 Mucin Power Essence", "Essence/Toner"));
         skincareHashTable.put("Serum", new SkincareProduct("COSRX: Full Fit Propolis Light Ampoule", "Serum"));
 
-        int numThreads = 3; // Number of threads to create
-        int productsPerThread = skincareProducts.size() / numThreads;
 
-        ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
-
-        // Create and start threads for processing skincare products
-        for (int i = 0; i < numThreads; i++) {
-            int startIndex = i * productsPerThread;
-            int endIndex = (i == numThreads - 1) ? skincareProducts.size() - 1 : startIndex + productsPerThread - 1;
-
-            SkincareThread thread = new SkincareThread(skincareProducts, startIndex, endIndex);
-            executorService.submit(thread);
-        }
-
-        // Shutdown the ExecutorService to stop accepting new tasks
-        executorService.shutdown();
-
-        // Wait for all submitted tasks to complete or timeout after a certain period
-        try {
-            executorService.awaitTermination(10, java.util.concurrent.TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         int score = 0;
 
@@ -190,10 +181,33 @@ public class SkincareRoutineQuiz {
         if (foundProduct != null) {
             System.out.println("Product found: " + foundProduct);
         } else {
-            System.out.println("Product not found.");
+            System.out.println("\nProduct not found.");
         }
 
 
+        int numThreads = 3; // Number of threads to create
+        int productsPerThread = skincareProducts.size() / numThreads;
+
+        ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
+
+        // Create and start threads for processing skincare products
+        for (int i = 0; i < numThreads; i++) {
+            int startIndex = i * productsPerThread;
+            int endIndex = (i == numThreads - 1) ? skincareProducts.size() - 1 : startIndex + productsPerThread - 1;
+
+            SkincareThread thread = new SkincareThread(skincareProducts, startIndex, endIndex);
+            executorService.submit(thread);
+        }
+
+        // Shutdown the ExecutorService to stop accepting new tasks
+        executorService.shutdown();
+
+        // Wait for all submitted tasks to complete or timeout after a certain period
+        try {
+            executorService.awaitTermination(10, java.util.concurrent.TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         scanner.close();
 
